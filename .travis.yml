@@ -13,6 +13,7 @@ after_success:
   - docker build -t vclho/multi-nginx ./nginx
   - docker build -t vclho/multi-server ./server
   - docker build -t vclho/multi-worker ./worker
+
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
