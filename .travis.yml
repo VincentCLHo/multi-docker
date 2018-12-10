@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t vclho/react-test -f ./client/Dockerfile.dev
+
+script:
+  - docker run vclho/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t vclho/multi-client ./client
+  - docker build -t vclho/multi-nginx ./nginx
+  - docker build -t vclho/multi-server ./server
+  - docker build -t vclho/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Take those images and push them to docker hub
+  - docker push vclho/multi-client
+  - docker push vclho/multi-nginx
+  - docker push vclho/multi-server
+  - docker push vclho/multi-worker
