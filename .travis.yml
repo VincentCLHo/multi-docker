@@ -22,3 +22,16 @@ after_success:
   - docker push vclho/multi-nginx
   - docker push vclho/multi-server
   - docker push vclho/multi-worker
+
+depoly:
+  provider: elasticbeantalk
+  region: us-west-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: xxxxxxxx
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
